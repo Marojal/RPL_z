@@ -1,0 +1,80 @@
+{% extends 'dashboard/base.html' %} {% load static %} {% block content %}
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0">Upload File</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--6">
+  <div class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{{ title }}</h4>
+          </div>
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="ms-1">No</th>
+                  <th scope="ms-1">Nama</th>
+                  <th scope="ms-1">Email</th>
+                  <th scope="ms-1">Prodi</th>
+                  <th scope="ms-1">Status</th>
+                  <th scope="ms-1"></th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for formulir in formulirs %}
+                <tr>
+                  <th scope="row" class="col-md-2">{{ forloop.counter }}</th>
+                  <td class="ms-1">{{ formulir.nama }}</td>
+                  <td class="ms-1">{{ formulir.email }}</td>
+                  <td>{{ formulir.prodi1 }}
+                  </td>
+                  <td> 
+                  <span style="font-size: 13px;" class ="{% if formulir.status == 'Belum Diverifikasi' %} badge badge-primary text-white bg-info
+                  {% elif formulir.status == 'Lulus' %} badge badge-primary text-white bg-success
+                  {% elif formulir.status == 'Gagal' %} badge badge-primary text-white bg-danger
+                  {% endif %}">{{ formulir.get_status_display }}
+                  </span>
+                  <label>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarUserDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarUserDropdown">
+                          <div class="dropdown-divider"></div>
+                            <span class="dropdown-item">{}</span>
+                            <span class="dropdown-item">Gagal</span>
+                            <span class="dropdown-item">Lulus</span>
+                          </div>
+                      </div>
+                  </li>
+                  </label></td>
+                  <td class="ms-1"><a href="{% url 'file_detail' pk=file.pk %}">
+                    <button type="button" class="btn btn-success">Detail</button>
+                  </a></td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="card-footer text-right">
+            <a href="{% url 'formulir' %}" class="btn btn-success">Tambah Formulir</a>
+            <!-- Ini harus cocok dengan pola URL -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %} {% block js %}
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+{% endblock %}
